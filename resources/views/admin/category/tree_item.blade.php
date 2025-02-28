@@ -1,7 +1,7 @@
 <li class="dd-item dd3-item" data-id="{{ $category['id'] }}">
     <div class="dd-handle dd3-handle"></div>
     <div class="dd3-content">
-        <a href="{{ route('admin.category.edit', ['id' => $category['id']]) }}">{{ $category['name'] }}</a>
+        <a style="{{ $activeId === $category['id'] ? 'font-weight: bold' : ''}}" href="{{ route('admin.category.edit', ['id' => $category['id']]) }}">{{ $category['name'] }}</a>
     </div>
 
     @if (!empty($category['children']))

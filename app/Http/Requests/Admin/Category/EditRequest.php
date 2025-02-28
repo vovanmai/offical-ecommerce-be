@@ -3,10 +3,8 @@
 namespace App\Http\Requests\Admin\Category;
 
 use App\Models\Category;
-use App\Rules\CheckSelfParentCat;
-use App\Services\Admin\CommonService;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use App\Rules\CheckExistedCategoryName;
 
 class EditRequest extends FormRequest
 {
@@ -28,17 +26,13 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => [
-                'nullable',
-                'integer',
-                'exists:categories,id',
-                new CheckSelfParentCat($this->route()->id),
-            ],
-            'title' => [
+            'category_id' => 'nullable|integer|exists:categories,id',
+            'name' => [
                 'required',
                 'max:50',
-                Rule::unique('categories')->where('type', Category::TYPE_POST)->ignore($this->route('id'))
+                // new CheckExistedCategoryName($this->get('category_id'), Category::TYPE_PRODUCT),
             ],
+            'description' => "nullable",
         ];
     }
 }

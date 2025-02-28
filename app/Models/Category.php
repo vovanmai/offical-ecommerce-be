@@ -31,6 +31,7 @@ class Category extends AbstractModel
         'parent_id',
         'active',
         'type',
+        'order',
     ];
 
     /**

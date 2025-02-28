@@ -22,21 +22,25 @@
                     <div class="card card-primary card-outline">
                         <div class="card-header">
                             <h3 class="card-title">Danh sách</h3>
+                            <div class="card-tools">
+                                <a href="{{ route('admin.category.index') }}" type="button" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo mới</a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            @include('admin.category.list')
+                            @include('admin.category.list', ['activeId' => $item->id])
                         </div>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h3 class="card-title">Tạo mới danh mục</h3>
+                            <h3 class="card-title">Cập nhật danh mục</h3>
                         </div>
                         <!-- /.card-header -->
-                        <form method="POST" action="{{ route('admin.category.store') }}">
+                        <form method="POST" action="{{ route('admin.category.update', ['id' => $item->id]) }}">
                             @csrf
+                            @method('PUT')
                             <div class="card-body">
                               <div class="form-group @error('name') has-error @enderror">
                                 <label for="name">Tên(*)</label>

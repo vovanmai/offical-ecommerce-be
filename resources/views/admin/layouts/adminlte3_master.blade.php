@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Advanced form elements</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -30,6 +31,8 @@
         href="{{ customAsset('adminlte3/plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css') }}">
     <!-- BS Stepper -->
     <link rel="stylesheet" href="{{ customAsset('adminlte3/plugins/bs-stepper/css/bs-stepper.min.css') }}">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ customAsset('adminlte3/plugins/toastr/toastr.min.css') }}">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="{{ customAsset('adminlte3/plugins/dropzone/min/dropzone.min.css') }}">
     <!-- Theme style -->
@@ -224,7 +227,7 @@
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="../gallery.html" class="nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.category.index') }}" class="nav-link {{ request()->is('admin/categories*') ? 'active' : '' }}">
                                 <i class="nav-icon far fa-circle"></i>
                                 <p>
                                     Danh mục sản phẩm
@@ -283,12 +286,14 @@
     <script src="{{ customAsset('adminlte3/plugins/bs-stepper/js/bs-stepper.min.js') }}"></script>
     <!-- dropzonejs -->
     <script src="{{ customAsset('adminlte3/plugins/dropzone/min/dropzone.min.js') }}"></script>
+    <!-- Toastr -->
+    <script src="{{ customAsset('adminlte3/plugins/toastr/toastr.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ customAsset('adminlte3/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ customAsset('assets/admin/dist/js/jquery.nestable.js') }}"></script>
     <script src="{{ customAsset('assets/admin/dist/js/my-script.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
-    {{-- <script src="{{ customAsset('adminlte3/dist/js/demo.js') }}"></script> --}}
+    <script src="{{ customAsset('adminlte3/dist/js/demo.js') }}"></script>
     <!-- Page specific script -->
     <script>
         $(function() {
@@ -374,6 +379,13 @@
                 $(this).bootstrapSwitch('state', $(this).prop('checked'));
             })
 
+            if ("{{ session()->has('success_message') }}") {
+                toastr.success("{{ session()->get('success_message') }}", 'Thành công')
+            }
+
+            if ("{{ session()->has('error_message') }}") {
+                toastr.error("{{ session()->get('error_message') }}", 'Lỗi')
+            }
         })
         // BS-Stepper Init
         document.addEventListener('DOMContentLoaded', function() {

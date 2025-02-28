@@ -37,7 +37,6 @@ class CheckExistedCategoryName implements ValidationRule
                 ->where('name', $value)
                 ->exists() ?? false;
         }
-
         return Category::where('type', $this->categoryType)
             ->whereNotExists(fn (Builder $query) => $query->select(DB::raw(1))
                 ->from('categories as tmp')

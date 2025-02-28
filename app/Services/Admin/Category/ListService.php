@@ -14,7 +14,7 @@ class ListService
      */
     public function handle (array $data)
     {
-        $categories = Category::where('type', $data['type'])->orderBy('id', 'ASC')->get()->toArray();
+        $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
         return buildTree($categories);
     }
 }

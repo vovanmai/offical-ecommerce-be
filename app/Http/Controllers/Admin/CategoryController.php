@@ -13,6 +13,7 @@ use App\Services\Admin\Category\EditService;
 use App\Services\Admin\Category\GetAllService;
 use App\Services\Admin\Category\ListService;
 use App\Services\Admin\Category\StoreService;
+use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\Admin\Category\UpdateService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -55,6 +56,25 @@ class CategoryController extends BaseController
         }
     }
 
+    public function updateOrder (Request $request)
+    {
+        $data = $request->only([
+            'category_ids',
+            'parent_id'
+        ]);
+
+        try {
+            resolve(UpdateOrderService::class)->handle($data);
+
+            session()->flash('success_message', 'Cập nhật thành công!');
+
+            return response()->json([]);
+        } catch (Exception $ex) {dd($ex);
+            Log::info($ex->getMessage());
+            return redirect()->route('admin.error.error');
+        }
+    }
+
     public function edit (int $id)
     {
         try {
@@ -77,10 +97,9 @@ class CategoryController extends BaseController
     public function update (EditRequest $request, int $id)
     {
         $data = $request->only([
-            'title',
+            'name',
             'description',
             'category_id',
-            'description',
         ]);
 
         $data['parent_id'] = $data['category_id'] ?? null;
@@ -90,9 +109,7 @@ class CategoryController extends BaseController
 
             session()->flash('error_msg', trans('message.admin.create_success'));
 
-            return redirect()->route('admin.category.list');
-        } catch (ValidatorException $ex) {
-            return redirect()->back()->withInput()->withErrors($ex->getMessageBag());
+            return redirect()->back();
         } catch (Exception $ex) {
             Log::info($ex->getMessage());
             return redirect()->route('admin.error.error');

@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->index();
+            $table->string('name')->index();
             $table->boolean('active')->default(true);
+            $table->smallInteger('order');
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('parent_id')->index()->nullable();
