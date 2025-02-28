@@ -1,0 +1,18 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "build-adminlte": "cp -r node_modules/admin-lte/dist/css public/adminlte/css && cp -r node_modules/admin-lte/dist/js public/adminlte/js && cp -r node_modules/@fortawesome/fontawesome-free/css/all.min.css public/adminlte/plugins/fontawesome-free/css && cp -r node_modules/@fortawesome/fontawesome-free/webfonts public/adminlte/webfonts"
+    },
+    "devDependencies": {
+        "axios": "^1.6.4",
+        "husky": "^9.1.7",
+        "laravel-vite-plugin": "^1.0.0",
+        "vite": "^5.0.0"
+    },
+    "dependencies": {
+        "admin-lte": "^3.2.0"
+    }
+}
