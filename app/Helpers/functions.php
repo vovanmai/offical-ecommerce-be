@@ -503,6 +503,7 @@ if (! function_exists('buildTree')) {
         $tree = [];
 
         foreach ($items as $item) {
+            $item['text'] = $item['name'];
             if ($item['parent_id'] === $parentId) {
                 $children = buildTree($items, $item['id']);
                 if (!empty($children)) {

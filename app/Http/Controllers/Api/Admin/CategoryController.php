@@ -25,18 +25,12 @@ class CategoryController extends BaseController
 {
     public function index (Request $request)
     {
-        try {
-            $data = [
-                'type' => Category::TYPE_PRODUCT,
-            ];
-            $categories = resolve(ListService::class)->handle($data);
+        $data = [
+            'type' => Category::TYPE_PRODUCT,
+        ];
+        $categories = resolve(ListService::class)->handle($data);
 
-            return view('admin.category.index', [
-                'items' => $categories,
-            ]);
-        } catch (Exception $exception) {
-            return redirect()->route('admin.error.error');
-        }
+        return response()->success($categories);
     }
 
     public function store (CreateRequest $request)

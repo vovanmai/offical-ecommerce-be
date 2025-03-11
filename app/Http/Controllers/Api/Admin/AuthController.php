@@ -37,4 +37,9 @@ class AuthController extends BaseController
         request()->user()->tokens()->delete();
         return response()->success();
     }
+
+    public function me ()
+    {
+        return response()->success(request()->user());
+    }
 }
