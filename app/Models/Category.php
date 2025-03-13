@@ -12,6 +12,8 @@ class Category extends AbstractModel
 
     const TYPE_PRODUCT = 1;
     const TYPE_POST = 2;
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     /**
      * The table associated with the model.
@@ -29,7 +31,7 @@ class Category extends AbstractModel
         'name',
         'description',
         'parent_id',
-        'active',
+        'status',
         'type',
         'order',
     ];

@@ -26,11 +26,12 @@ class EditRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => 'nullable|integer|exists:categories,id',
+            'parent_id' => 'nullable|integer|exists:categories,id',
+            'status' => 'required|in:1,2',
             'name' => [
                 'required',
                 'max:50',
-                // new CheckExistedCategoryName($this->get('category_id'), Category::TYPE_PRODUCT),
+                new CheckExistedCategoryName($this->get('parent_id'), Category::TYPE_PRODUCT),
             ],
             'description' => "nullable",
         ];

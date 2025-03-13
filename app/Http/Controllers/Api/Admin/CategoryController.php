@@ -38,54 +38,21 @@ class CategoryController extends BaseController
         $data = $request->validated();
         $data['type'] = Category::TYPE_PRODUCT;
 
-        try {
-            resolve(StoreService::class)->handle($data);
+        $categories = resolve(StoreService::class)->handle($data);
 
-            session()->flash('success_message', 'Tạo danh mục thành công!');
-
-            return redirect()->route('admin.category.index');
-        } catch (Exception $ex) {dd($ex);
-            Log::info($ex->getMessage());
-            return redirect()->route('admin.error.error');
-        }
+        return response()->success($categories);
     }
 
     public function updateOrder (Request $request)
     {
         $data = $request->only([
-            'category_ids',
-            'parent_id'
+            'categories',
         ]);
+        $data['type'] = Category::TYPE_PRODUCT;
 
-        try {
-            resolve(UpdateOrderService::class)->handle($data);
+        $categories = resolve(UpdateOrderService::class)->handle($data);
 
-            session()->flash('success_message', 'Cập nhật thành công!');
-
-            return response()->json([]);
-        } catch (Exception $ex) {dd($ex);
-            Log::info($ex->getMessage());
-            return redirect()->route('admin.error.error');
-        }
-    }
-
-    public function edit (int $id)
-    {
-        try {
-            $item = resolve(EditService::class)->handle($id);
-
-            $data = [
-                'type' => Category::TYPE_PRODUCT,
-            ];
-            $items = resolve(ListService::class)->handle($data);
-
-            return view('admin.category.edit', [
-                'item' => $item,
-                'items' => $items,
-            ]);
-        } catch (Exception $exception) {
-            return redirect()->route('admin.error.error');
-        }
+        return response()->json($categories);
     }
 
     public function update (EditRequest $request, int $id)

@@ -16,13 +16,17 @@ class StoreService
      */
     public function handle (array $data)
     {
-        return Category::create([
+        Category::create([
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
             'type' => $data['type'] ?? Category::TYPE_PRODUCT,
-            'order' => $this->getNextOrder($data['category_id'] ?? null, $data) + 1,
-            'parent_id' => $data['category_id'] ?? null,
+            'order' => $this->getNextOrder($data['parent_id'] ?? null, $data) + 1,
+            'parent_id' => $data['parent_id'] ?? null,
+            'status' => $data['status'] ?? Category::STATUS_ACTIVE,
         ]);
+
+        $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
+        return buildTree($categories);
     }
 
     private function getNextOrder(?int $parentId, array $data): int
