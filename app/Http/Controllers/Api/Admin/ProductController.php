@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Requests\Admin\Category\CreateRequest;
+use App\Http\Requests\Admin\Product\CreateRequest;
 use App\Http\Requests\Admin\Category\EditRequest;
 use App\Models\Category;
 use App\Services\Admin\Category\ChangActiveService;
@@ -11,8 +11,8 @@ use App\Services\Admin\Category\DeleteService;
 use App\Services\Admin\Category\DetailService;
 use App\Services\Admin\Category\EditService;
 use App\Services\Admin\Category\GetAllService;
-use App\Services\Admin\Category\ListService;
-use App\Services\Admin\Category\StoreService;
+use App\Services\Admin\Product\ListService;
+use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\Admin\Category\UpdateService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,16 +21,23 @@ use Illuminate\Routing\Controller as BaseController;
 use Exception;
 use Log;
 
-class CategoryController extends BaseController
+class ProductController extends BaseController
 {
     public function index (Request $request)
     {
-        $data = [
-            'type' => Category::TYPE_PRODUCT,
-        ];
-        $categories = resolve(ListService::class)->handle($data);
+        $data = $request->only([
+            'name',
+            'category_id',
+            'price',
+            'status',
+            'created_at_from',
+            'created_at_to',
+            'per_page',
+        ]);
 
-        return response()->success($categories);
+        $items = resolve(ListService::class)->handle($data);
+
+        return response()->success($items);
     }
 
     public function show (int $id)
@@ -43,7 +50,6 @@ class CategoryController extends BaseController
     public function store (CreateRequest $request)
     {
         $data = $request->validated();
-        $data['type'] = Category::TYPE_PRODUCT;
 
         $categories = resolve(StoreService::class)->handle($data);
 

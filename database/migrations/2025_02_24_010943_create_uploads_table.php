@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('uploads', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('uploadable_id')->nullable();
+            $table->string('uploadable_type')->nullable();
+            $table->string('key')->nullable();
+            $table->unsignedInteger('file_size');
+            $table->string('path');
+            $table->string('filename');
             $table->timestamps();
         });
     }

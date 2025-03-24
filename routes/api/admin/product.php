@@ -1,14 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Admin\ProductController;
 
 Route::prefix('products')->group(function () {
-    Route::get('', 'ProductController@index')->name('admin.product.list');
-
-    Route::get('create', 'ProductController@create')->name('admin.product.create');
-    Route::post('', 'ProductController@store')->name('admin.product.store');
-
-    Route::get('{id}/edit', 'ProductController@edit')->name('admin.product.edit');
-    Route::put('{id}', 'ProductController@update')->name('admin.product.update');
-
-    Route::delete('{id}', 'ProductController@destroy')->name('admin.product.destroy');
+    Route::get('', [ProductController::class, 'index']);
+    Route::post('', [ProductController::class, 'store']);
+    Route::get('{id}', [ProductController::class, 'show']);
+    Route::put('{id}', [ProductController::class, 'update']);
 });

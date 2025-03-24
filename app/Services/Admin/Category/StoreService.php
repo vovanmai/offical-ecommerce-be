@@ -26,7 +26,7 @@ class StoreService
         ]);
 
         $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
-        return buildTree($categories);
+        return $categories;
     }
 
     private function getNextOrder(?int $parentId, array $data): int

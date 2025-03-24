@@ -7,4 +7,6 @@ Route::prefix('categories')->group(function () {
     Route::get('', [CategoryController::class, 'index']);
     Route::post('', [CategoryController::class, 'store']);
     Route::post('update-order', [CategoryController::class, 'updateOrder']);
+    Route::get('{id}', [CategoryController::class, 'show']);
+    Route::put('{id}', [CategoryController::class, 'update']);
 });

@@ -18,7 +18,5 @@ use Illuminate\Support\Facades\Route;
 require __DIR__ . '/api/admin/index.php';
 
 
-// Routes of admin
-require __DIR__ . '/api/common.php';
 // Routes of user
 // require __DIR__ . '/api/user/index.php';

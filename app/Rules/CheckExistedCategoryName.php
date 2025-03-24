@@ -10,10 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class CheckExistedCategoryName implements ValidationRule
 {
-    public function __construct(private ?int $categoryId = null, private ?int $categoryType = null)
+    public function __construct(private ?int $parentId = null, private ?int $categoryType = null, private ?int $ignoreId = null)
     {
-        $this->categoryId = $categoryId;
+        $this->parentId = $parentId;
         $this->categoryType = $categoryType;
+        $this->ignoreId = $ignoreId;
     }
 
     /**
@@ -30,17 +31,25 @@ class CheckExistedCategoryName implements ValidationRule
 
     private function categoryExists(mixed $value): bool
     {
-        if ($this->categoryId) {
-            return Category::find($this->categoryId)
-                ?->children()
-                ->where('type', $this->categoryType)
+        if ($this->parentId) {
+            $model = Category::find($this->parentId)->children();
+
+            if($this->ignoreId) {
+                $model->where('id', '!=', $this->ignoreId);
+            }
+
+            return $model->where('type', $this->categoryType)
                 ->where('name', $value)
                 ->exists() ?? false;
         }
-        return Category::where('type', $this->categoryType)
-            ->whereNotExists(fn (Builder $query) => $query->select(DB::raw(1))
-                ->from('categories as tmp')
-                ->whereColumn('tmp.parent_id', 'categories.id'))
+
+        $model = Category::query();
+
+        if($this->ignoreId) {
+            $model->where('id', '!=', $this->ignoreId);
+        }
+        return $model->where('type', $this->categoryType)
+            ->whereNull('parent_id')
             ->where('name', $value)
             ->exists();
     }

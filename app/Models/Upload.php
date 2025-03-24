@@ -22,8 +22,7 @@ class Upload extends AbstractModel
         'uploadable_id',
         'uploadable_type',
         'path',
-        'file_name',
+        'filename',
         'file_size',
-        'extension'
     ];
 }

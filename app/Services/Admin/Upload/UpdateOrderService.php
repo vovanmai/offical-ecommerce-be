@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin\Category;
+namespace App\Services\Admin\Product;
 
 use App\Models\Category;
 use Illuminate\Contracts\Database\Query\Builder;

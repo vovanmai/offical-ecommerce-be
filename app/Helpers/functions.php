@@ -433,83 +433,17 @@ if (! function_exists('getWebsiteSetting')) {
     }
 }
 
-if (! function_exists('makeSEO')) {
-
-    /**
-     * Make SEO
-     *
-     * @param array $data Data
-     *
-     * @return void
-     */
-    function makeSEO(array $data)
-    {
-        SEOMeta::setCanonical(request()->url());
-        if (!empty($data['title'])) {
-            SEOMeta::setTitle($data['title']);
-            OpenGraph::setTitle($data['title']);
-            JsonLd::setTitle($data['title']);
-            TwitterCard::setTitle($data['title']);
-            JsonLd::setTitle($data['title']);
-        }
-
-        if (!empty($data['description'])) {
-            SEOMeta::setDescription($data['description']);
-            OpenGraph::setDescription($data['description']);
-            JsonLd::setDescription($data['description']);
-            TwitterCard::setDescription($data['description']);
-            JsonLd::setDescription($data['description']);
-        }
-
-        OpenGraph::addProperty('type', 'article');
-
-        if (!empty($data['image'])) {
-            OpenGraph::addProperty('image', $data['image']['url']);
-            OpenGraph::addProperty('image:width', $data['image']['origin_width']);
-            OpenGraph::addProperty('image:height', $data['image']['origin_height']);
-            JsonLd::addImage($data['image']['url']);
-        }
-        JsonLd::addValue('datePublished', Carbon::now());
-        JsonLd::setType('NewsArticle');
-
-        if (!empty($data['created_at'])) {
-            $dataArticle['published_time'] = $data['created_at']->toIso8601String();
-        }
-
-        if (!empty($data['updated_at'])) {
-            $dataArticle['modified_time'] = $data['updated_at']->toIso8601String();
-        }
-
-//        OpenGraph::setType('article')
-//            ->setArticle($dataArticle);
-
-//        OpenGraph::setType('article')
-//            ->setArticle([
-//                'publisher' => app('web_setting')->link_fan_page_facebook ?? null,
-//                'published_time' => 'datetime',
-//                'modified_time' => 'datetime',
-//                'expiration_time' => 'datetime',
-//                'author' => 'profile / array',
-//                'section' => 'string',
-//                'tag' => 'string / array'
-//            ]);
-    }
-}
 
 
-
-if (! function_exists('buildTree')) {
+if (!function_exists('buildTree')) {
     function buildTree(array $items, $parentId = null) {
         $tree = [];
 
         foreach ($items as $item) {
-            $item['text'] = $item['name'];
-            $item['children'] = [];
             if ($item['parent_id'] === $parentId) {
-                $children = buildTree($items, $item['id']);
-                if (!empty($children)) {
-                    $item['children'] = $children;
-                }
+                $item['text'] = $item['name'];
+                $item['children'] = buildTree($items, $item['id']);
+
                 $tree[] = $item;
             }
         }

@@ -8,17 +8,15 @@ class Product extends AbstractModel
 {
     use Sluggable;
 
-    const MAX_GRADE = 3;
-
-    const TYPE_PRODUCT = 1;
-    const TYPE_POST = 2;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'products';
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +26,7 @@ class Product extends AbstractModel
     protected $fillable = [
         'name',
         'category_id',
-        'active',
+        'status',
         'description',
         'price',
     ];
@@ -53,5 +51,13 @@ class Product extends AbstractModel
     public function previewImage(): MorphOne
     {
         return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image');
+    }
+
+    /**
+     * Get previewImage.
+     */
+    public function detailMedias(): MorphOne
+    {
+        return $this->morphMany(Upload::class, 'uploadable')->where('key', 'detail_file');
     }
 }

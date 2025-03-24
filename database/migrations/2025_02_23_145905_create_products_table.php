@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,12 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->index();
+            $table->tinyInteger('status')->default(Product::STATUS_ACTIVE);
+            $table->unsignedBigInteger('price');
+            $table->string('slug')->unique();
+            $table->text('description');
+            $table->unsignedBigInteger('category_id')->index();
             $table->timestamps();
         });
     }
