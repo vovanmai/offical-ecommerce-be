@@ -29,6 +29,7 @@ class Product extends AbstractModel
         'status',
         'description',
         'price',
+        'inventory_quantity',
     ];
 
     /**

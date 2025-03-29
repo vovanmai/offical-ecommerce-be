@@ -22,6 +22,7 @@ class StoreService
             'price' => $data['price'],
             'description' => $data['description'] ?? null,
             'category_id' => $data['category_id'],
+            'inventory_quantity' => $data['inventory_quantity'],
             'status' => $data['status'] ?? Product::STATUS_ACTIVE,
         ]);
 

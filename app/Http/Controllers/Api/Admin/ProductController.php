@@ -33,6 +33,8 @@ class ProductController extends BaseController
             'created_at_from',
             'created_at_to',
             'per_page',
+            'sort',
+            'order',
         ]);
 
         $items = resolve(ListService::class)->handle($data);

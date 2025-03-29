@@ -49,6 +49,10 @@ class CreateRequest extends FormRequest
                 'required',
                 'array',
             ],
+            'inventory_quantity' => [
+                'required',
+                'integer',
+            ]
         ];
     }
 }
