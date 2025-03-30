@@ -2,6 +2,7 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Product extends AbstractModel
@@ -57,7 +58,7 @@ class Product extends AbstractModel
     /**
      * Get previewImage.
      */
-    public function detailMedias(): MorphOne
+    public function detailMedias(): MorphMany
     {
         return $this->morphMany(Upload::class, 'uploadable')->where('key', 'detail_file');
     }

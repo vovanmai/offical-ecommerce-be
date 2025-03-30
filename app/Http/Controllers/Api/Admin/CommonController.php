@@ -14,6 +14,7 @@ class CommonController extends BaseController
     public function upload (Request $request)
     {
         $file = $request->file('file');
+        $save = $request->get('save', true);
 
         if(!$file) {
             return response()->error('File required.');
@@ -35,16 +36,21 @@ class CommonController extends BaseController
 
         $resultFile = $uploadFile->result ?? null;
 
-        $upload = Upload::create([
-            'filename' => $resultFile->name,
-            'path' => 'uploads',
-            'file_size' => $resultFile->size,
-            'data' => [
-                'endpoint_url' => config('filesystems.imagekit.url_endpoint'),
-                'file_id' => $resultFile->fileId,
-            ]
-        ]);
+        if($save) {
+            $upload = Upload::create([
+                'filename' => $resultFile->name,
+                'path' => 'uploads',
+                'file_size' => $resultFile->size,
+                'data' => [
+                    'endpoint_url' => config('filesystems.imagekit.url_endpoint'),
+                    'file_id' => $resultFile->fileId,
+                ]
+            ]);
+            return response()->success($upload);
+        }
 
-        return response()->success($upload);
+        return response()->success([
+            'url' => config('filesystems.imagekit.url_endpoint') . '/uploads/' . $resultFile->name,
+        ]);
     }
 }

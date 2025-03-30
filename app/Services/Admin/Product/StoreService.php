@@ -31,7 +31,7 @@ class StoreService
         }
 
         if(filled($data['detail_file_ids']) ?? null) {
-            resolve(UpdateService::class)->handle([$data['detail_file_ids']], $product, 'detail_file');
+            resolve(UpdateService::class)->handle($data['detail_file_ids'], $product, 'detail_file');
         }
 
         return $product;

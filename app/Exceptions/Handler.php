@@ -9,6 +9,7 @@ use TypeError;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +47,7 @@ class Handler extends ExceptionHandler
     {
         return match (true) {
             $e instanceof AuthenticationException => $this->unauthenticated($request, $e),
+            $e instanceof ModelNotFoundException => $this->notFound(),
             $e instanceof ValidationException => $this->convertValidationExceptionToResponse($e, $request),
             default => $this->renderExceptionResponse($request, $e),
         };
@@ -70,6 +72,15 @@ class Handler extends ExceptionHandler
             'Dữ liệu đầu vào không hợp lệ.',
             $errors,
             Response::HTTP_UNPROCESSABLE_ENTITY
+        );
+    }
+
+    protected function notFound()
+    {
+        return response()->error(
+            'Không tìm thấy trang.',
+            [],
+            Response::HTTP_NOT_FOUND
         );
     }
 }

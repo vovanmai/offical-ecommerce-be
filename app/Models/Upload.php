@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Upload extends AbstractModel
 {
+
+    use SoftDeletes;
 
     /**
      * The table associated with the model.

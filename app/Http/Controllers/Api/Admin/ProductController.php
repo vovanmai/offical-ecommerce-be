@@ -11,11 +11,13 @@ use App\Services\Admin\Product\ListService;
 use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\Admin\Category\UpdateService;
+use App\Services\Admin\Product\ShowService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Exception;
 use Log;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
 {
@@ -40,9 +42,9 @@ class ProductController extends BaseController
 
     public function show (int $id)
     {
-        $category = Category::findOrFail($id);
+        $product = resolve(ShowService::class)->handle($id);
 
-        return response()->success( $category);
+        return response()->success($product);
     }
 
     public function store (CreateRequest $request)
@@ -78,8 +80,10 @@ class ProductController extends BaseController
 
     public function destroy ($id)
     {
-        resolve(DeleteService::class)->handle($id);
-        return response()->success('Thành công');
+        DB::transaction(function () use ($id) {
+            resolve(DeleteService::class)->handle($id);
+        });
+        return response()->success([], 'Thành công');
     }
 
     public function changeActive (Request $request, int $id)

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('path');
             $table->string('filename');
             $table->jsonb('data')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

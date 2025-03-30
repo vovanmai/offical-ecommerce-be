@@ -4,7 +4,7 @@ namespace App\Services\Admin\Product;
 
 use App\Models\Product;
 
-class DeleteService
+class ShowService
 {
 
     /**
@@ -14,10 +14,11 @@ class DeleteService
      */
     public function handle (int $id)
     {
-        $product = Product::findOrFail($id);
-        $product->previewImage()->delete();
-        $product->detailMedias()->delete();
+        $product = Product::with([
+            'previewImage',
+            'detailMedias'
+        ])->findOrFail($id);
 
-        $product->delete();
+        return $product;
     }
 }
