@@ -6,11 +6,7 @@ use App\Http\Requests\Admin\Product\CreateRequest;
 use App\Http\Requests\Admin\Category\EditRequest;
 use App\Models\Category;
 use App\Services\Admin\Category\ChangActiveService;
-use App\Services\Admin\Category\CreateService;
-use App\Services\Admin\Category\DeleteService;
-use App\Services\Admin\Category\DetailService;
-use App\Services\Admin\Category\EditService;
-use App\Services\Admin\Category\GetAllService;
+use App\Services\Admin\Product\DeleteService;
 use App\Services\Admin\Product\ListService;
 use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
@@ -82,14 +78,8 @@ class ProductController extends BaseController
 
     public function destroy ($id)
     {
-        try {
-            $result = resolve(DeleteService::class)->handle($id);
-            return response()->success('Xóa danh mục thành công thành công', $result);
-        } catch (ModelNotFoundException $exception) {
-            return response()->notFound();
-        } catch (Exception $exception) {
-            return response()->error('Máy chủ bị lỗi', $exception);
-        }
+        resolve(DeleteService::class)->handle($id);
+        return response()->success('Thành công');
     }
 
     public function changeActive (Request $request, int $id)

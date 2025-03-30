@@ -13,6 +13,15 @@ class Upload extends AbstractModel
     protected $table = 'uploads';
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -24,5 +33,6 @@ class Upload extends AbstractModel
         'path',
         'filename',
         'file_size',
+        'data',
     ];
 }

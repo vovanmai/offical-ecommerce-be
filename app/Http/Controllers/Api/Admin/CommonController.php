@@ -35,12 +35,14 @@ class CommonController extends BaseController
 
         $resultFile = $uploadFile->result ?? null;
 
-        $fileInfo = pathinfo($resultFile->url);
-
         $upload = Upload::create([
-            'filename' => $fileInfo['basename'],
-            'path' => $fileInfo['dirname'],
+            'filename' => $resultFile->name,
+            'path' => 'uploads',
             'file_size' => $resultFile->size,
+            'data' => [
+                'endpoint_url' => config('filesystems.imagekit.url_endpoint'),
+                'file_id' => $resultFile->fileId,
+            ]
         ]);
 
         return response()->success($upload);

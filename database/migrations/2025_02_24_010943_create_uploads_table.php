@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedInteger('file_size');
             $table->string('path');
             $table->string('filename');
+            $table->jsonb('data')->nullable();
             $table->timestamps();
         });
     }
