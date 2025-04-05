@@ -12,5 +12,6 @@ Route::middleware('guard:admin')->prefix('admin')->group(function () {
         Route::get('me', [AuthController::class, 'me']);
         require __DIR__ . '/category.php';
         require __DIR__ . '/product.php';
+        require __DIR__ . '/page.php';
     });
 });

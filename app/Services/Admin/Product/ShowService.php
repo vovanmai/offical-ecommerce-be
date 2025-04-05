@@ -16,7 +16,7 @@ class ShowService
     {
         $product = Product::with([
             'previewImage',
-            'detailMedias'
+            'detailFiles'
         ])->findOrFail($id);
 
         return $product;

@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Requests\Admin\Product\CreateRequest;
 use App\Http\Requests\Admin\Product\EditRequest;
 use App\Models\Category;
-use App\Services\Admin\Category\ChangActiveService;
 use App\Services\Admin\Product\DeleteService;
 use App\Services\Admin\Product\ListService;
 use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\Admin\Product\ShowService;
 use App\Services\Admin\Product\UpdateService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Exception;
@@ -51,9 +49,11 @@ class ProductController extends BaseController
     {
         $data = $request->validated();
 
-        $categories = resolve(StoreService::class)->handle($data);
+        $product = DB::transaction(function () use ($data) {
+            return resolve(StoreService::class)->handle($data);
+        });
 
-        return response()->success($categories);
+        return response()->success($product);
     }
 
     public function updateOrder (Request $request)
@@ -72,9 +72,11 @@ class ProductController extends BaseController
     {
         $data = $request->validated();
 
-        $categories = resolve(UpdateService::class)->handle($id, $data);
+        DB::transaction(function () use ($id, $data) {
+            resolve(UpdateService::class)->handle($id, $data);
+        });
 
-        return response()->success($categories);
+        return response()->success();
     }
 
     public function destroy ($id)
@@ -83,20 +85,5 @@ class ProductController extends BaseController
             resolve(DeleteService::class)->handle($id);
         });
         return response()->success([], 'Thành công');
-    }
-
-    public function changeActive (Request $request, int $id)
-    {
-        $data = $request->only([
-            'active'
-        ]);
-        try {
-            resolve(ChangActiveService::class)->handle($id, $data);
-            return response()->success('Thành công');
-        } catch (ModelNotFoundException $exception) {
-            return response()->notFound();
-        } catch (Exception $exception) {
-            return response()->error('Máy chủ bị lỗi', $exception);
-        }
     }
 }

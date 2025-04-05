@@ -2,10 +2,8 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class Product extends AbstractModel
+class Page extends AbstractModel
 {
     use Sluggable;
 
@@ -14,7 +12,7 @@ class Product extends AbstractModel
      *
      * @var string
      */
-    protected $table = 'products';
+    protected $table = 'pages';
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 2;
@@ -26,11 +24,9 @@ class Product extends AbstractModel
      */
     protected $fillable = [
         'name',
-        'category_id',
+        'slug',
         'status',
         'description',
-        'price',
-        'inventory_quantity',
     ];
 
     /**
@@ -45,21 +41,5 @@ class Product extends AbstractModel
                 'source' => 'name'
             ]
         ];
-    }
-
-    /**
-     * Get previewImage.
-     */
-    public function previewImage(): MorphOne
-    {
-        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image');
-    }
-
-    /**
-     * Get previewImage.
-     */
-    public function detailFiles(): MorphMany
-    {
-        return $this->morphMany(Upload::class, 'uploadable')->where('key', 'detail_file');
     }
 }

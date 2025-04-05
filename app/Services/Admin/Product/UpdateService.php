@@ -16,12 +16,22 @@ class UpdateService
      */
     public function handle (int $id, array $data)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with([
+            'previewImage',
+            'detailFiles',
+        ])->findOrFail($id);
 
-        if($data['preview_image_id'] !== $product->previewImage->id) {
+        if($data['preview_image_id'] !== $product->previewImage?->id) {
             $product->previewImage()->delete();
             resolve(UploadUpdateService::class)->handle([$data['preview_image_id']], $product, 'preview_image');
         }
+
+        $oldDetailFiles = $product->detailFiles->pluck('id')->toArray();
+        $newDetailFiles = $data['detail_file_ids'] ?? [];
+        $deletedDetailFiles = array_diff($oldDetailFiles, $newDetailFiles);
+        $addedDetailFiles = array_diff($newDetailFiles, $oldDetailFiles);
+        $product->detailFiles()->whereIn('id', $deletedDetailFiles)->delete();
+        resolve(UploadUpdateService::class)->handle($addedDetailFiles, $product, 'detail_file');
 
         $product->update([
             'name' => $data['name'],

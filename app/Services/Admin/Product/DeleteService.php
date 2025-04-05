@@ -16,7 +16,7 @@ class DeleteService
     {
         $product = Product::findOrFail($id);
         $product->previewImage()->delete();
-        $product->detailMedias()->delete();
+        $product->detailFiles()->delete();
 
         $product->delete();
     }
