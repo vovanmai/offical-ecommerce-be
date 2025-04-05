@@ -3,7 +3,6 @@
 namespace App\Services\Admin\Category;
 
 use App\Models\Category;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
 class UpdateOrderService

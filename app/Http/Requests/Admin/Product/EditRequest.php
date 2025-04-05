@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Admin\Category;
+namespace App\Http\Requests\Admin\Product;
 
-use App\Models\Category;
 use Illuminate\Foundation\Http\FormRequest;
-use App\Rules\CheckExistedCategoryName;
+use Illuminate\Validation\Rule;
 
 class EditRequest extends FormRequest
 {
@@ -26,15 +25,33 @@ class EditRequest extends FormRequest
     public function rules()
     {
         $id = request()->route('id');
+
         return [
-            'parent_id' => 'nullable|integer|exists:categories,id',
+            'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|in:1,2',
             'name' => [
                 'required',
                 'max:50',
-                new CheckExistedCategoryName($this->get('parent_id'), Category::TYPE_PRODUCT, $id),
+                Rule::unique('products', 'name')->ignore($id),
             ],
             'description' => "nullable",
+            'price' => [
+                'required',
+                'integer',
+                'min:1000'
+            ],
+            'preview_image_id' => [
+                'required',
+                'integer',
+            ],
+            'detail_file_ids' => [
+                'required',
+                'array',
+            ],
+            'inventory_quantity' => [
+                'required',
+                'integer',
+            ]
         ];
     }
 }

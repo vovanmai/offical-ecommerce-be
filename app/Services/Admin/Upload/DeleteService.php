@@ -24,14 +24,14 @@ class DeleteService
      */
     public function handle (array $ids)
     {
-        $uploads = Upload::whereIn('id', $ids)->get();
+        Upload::whereIn('id', $ids)->get();
 
-        foreach($uploads as $upload) {
-            $response = $this->imageKit->deleteFile($upload->data['file_id']);
+        // foreach($uploads as $upload) {
+        //     $response = $this->imageKit->deleteFile($upload->data['file_id']);
 
-            if(!isset($response->error)) {
-                $upload->delete();
-            }
-        }
+        //     if(!isset($response->error)) {
+        //         $upload->delete();
+        //     }
+        // }
     }
 }

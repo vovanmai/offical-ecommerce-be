@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Requests\Admin\Product\CreateRequest;
-use App\Http\Requests\Admin\Category\EditRequest;
+use App\Http\Requests\Admin\Product\EditRequest;
 use App\Models\Category;
 use App\Services\Admin\Category\ChangActiveService;
 use App\Services\Admin\Product\DeleteService;
 use App\Services\Admin\Product\ListService;
 use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
-use App\Services\Admin\Category\UpdateService;
 use App\Services\Admin\Product\ShowService;
+use App\Services\Admin\Product\UpdateService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -71,7 +71,6 @@ class ProductController extends BaseController
     public function update (EditRequest $request, int $id)
     {
         $data = $request->validated();
-        $data['type'] = Category::TYPE_PRODUCT;
 
         $categories = resolve(UpdateService::class)->handle($id, $data);
 
