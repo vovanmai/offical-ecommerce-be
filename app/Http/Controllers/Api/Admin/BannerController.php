@@ -2,25 +2,24 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Requests\Admin\Page\CreateRequest;
-use App\Http\Requests\Admin\Page\EditRequest;
-use App\Models\Page;
-use App\Services\Admin\Page\DeleteService;
-use App\Services\Admin\Page\ListService;
-use App\Services\Admin\Page\StoreService;
-use App\Services\Admin\Page\ShowService;
-use App\Services\Admin\Page\UpdateService;
+use App\Http\Requests\Admin\Banner\CreateRequest;
+use App\Http\Requests\Admin\Banner\EditRequest;
+use App\Services\Admin\Banner\DeleteService;
+use App\Services\Admin\Banner\ListService;
+use App\Services\Admin\Banner\StoreService;
+use App\Services\Admin\Banner\ShowService;
+use App\Services\Admin\Banner\UpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use Exception;
 use Illuminate\Support\Facades\DB;
 
-class PageController extends BaseController
+class BannerController extends BaseController
 {
     public function index (Request $request)
     {
         $data = $request->only([
             'name',
+            'status',
             'created_at_from',
             'created_at_to',
             'per_page',
@@ -28,27 +27,27 @@ class PageController extends BaseController
             'order',
         ]);
 
-        $items = resolve(ListService::class)->handle($data);
+        $banners = resolve(ListService::class)->handle($data);
 
-        return response()->success($items);
+        return response()->success($banners);
     }
 
     public function show (int $id)
     {
-        $page = resolve(ShowService::class)->handle($id);
+        $banner = resolve(ShowService::class)->handle($id);
 
-        return response()->success($page);
+        return response()->success($banner);
     }
 
     public function store (CreateRequest $request)
     {
         $data = $request->validated();
 
-        $page = DB::transaction(function () use ($data) {
+        $banner = DB::transaction(function () use ($data) {
             return resolve(StoreService::class)->handle($data);
         });
 
-        return response()->success($page);
+        return response()->success($banner);
     }
 
     public function update (EditRequest $request, int $id)

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Admin\Page;
+namespace App\Services\Admin\Banner;
 
-use App\Models\Page;
+use App\Models\Banner;
 
 class DeleteService
 {
@@ -14,8 +14,8 @@ class DeleteService
      */
     public function handle (int $id)
     {
-        $page = Page::findOrFail($id);
+        $product = Banner::findOrFail($id);
 
-        $page->delete();
+        $product->delete();
     }
 }
