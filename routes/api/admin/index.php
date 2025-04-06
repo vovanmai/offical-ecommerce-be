@@ -14,5 +14,6 @@ Route::middleware('guard:admin')->prefix('admin')->group(function () {
         require __DIR__ . '/product.php';
         require __DIR__ . '/page.php';
         require __DIR__ . '/banner.php';
+        require __DIR__ . '/setting.php';
     });
 });
