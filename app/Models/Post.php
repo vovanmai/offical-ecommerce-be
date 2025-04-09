@@ -1,27 +1,22 @@
 <?php
-
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-class Category extends AbstractModel
+class Post extends AbstractModel
 {
     use Sluggable;
-
-    const MAX_GRADE = 3;
-
-    const TYPE_PRODUCT = 1;
-    const TYPE_POST = 2;
-
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 2;
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'posts';
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -30,11 +25,9 @@ class Category extends AbstractModel
      */
     protected $fillable = [
         'name',
-        'description',
-        'parent_id',
+        'category_id',
         'status',
-        'type',
-        'order',
+        'description',
     ];
 
     /**
@@ -52,18 +45,10 @@ class Category extends AbstractModel
     }
 
     /**
-     * Get the user that owns the phone.
+     * Get previewImage.
      */
-    public function parent()
+    public function previewImage(): MorphOne
     {
-        return $this->belongsTo(Category::class, 'parent_id', 'id');
-    }
-
-    /**
-     * Get the user that owns the phone.
-     */
-    public function children()
-    {
-        return $this->hasMany(Category::class, 'parent_id', 'id');
+        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image');
     }
 }

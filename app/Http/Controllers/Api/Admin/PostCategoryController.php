@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
-use App\Http\Requests\Admin\Category\CreateRequest;
-use App\Http\Requests\Admin\Category\EditRequest;
+use App\Http\Requests\Admin\PostCategory\CreateRequest;
+use App\Http\Requests\Admin\PostCategory\EditRequest;
 use App\Models\Category;
 use App\Services\Admin\Category\DeleteService;
 use App\Services\Admin\Category\ListService;
@@ -16,12 +16,12 @@ use Illuminate\Routing\Controller as BaseController;
 use Exception;
 use Log;
 
-class CategoryController extends BaseController
+class PostCategoryController extends BaseController
 {
     public function index (Request $request)
     {
         $data = [
-            'type' => Category::TYPE_PRODUCT,
+            'type' => Category::TYPE_POST,
         ];
         $categories = resolve(ListService::class)->handle($data);
 
@@ -38,7 +38,7 @@ class CategoryController extends BaseController
     public function store (CreateRequest $request)
     {
         $data = $request->validated();
-        $data['type'] = Category::TYPE_PRODUCT;
+        $data['type'] = Category::TYPE_POST;
 
         $categories = resolve(StoreService::class)->handle($data);
 
@@ -50,7 +50,7 @@ class CategoryController extends BaseController
         $data = $request->only([
             'categories',
         ]);
-        $data['type'] = Category::TYPE_PRODUCT;
+        $data['type'] = Category::TYPE_POST;
 
         $categories = resolve(UpdateOrderService::class)->handle($data);
 
@@ -60,7 +60,7 @@ class CategoryController extends BaseController
     public function update (EditRequest $request, int $id)
     {
         $data = $request->validated();
-        $data['type'] = Category::TYPE_PRODUCT;
+        $data['type'] = Category::TYPE_POST;
 
         $categories = resolve(UpdateService::class)->handle($id, $data);
 

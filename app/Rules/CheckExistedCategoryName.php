@@ -4,9 +4,7 @@ namespace App\Rules;
 
 use App\Models\Category;
 use Closure;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Support\Facades\DB;
 
 class CheckExistedCategoryName implements ValidationRule
 {
