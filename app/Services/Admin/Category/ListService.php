@@ -14,7 +14,10 @@ class ListService
      */
     public function handle (array $data)
     {
-        $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
+        $withCount = $data['type'] === Category::TYPE_PRODUCT ? 'products' : 'posts';
+        $categories = Category::where('type', $data['type'])
+            ->withCount($withCount)
+            ->orderBy('order')->get()->toArray();
         return $categories;
     }
 }
