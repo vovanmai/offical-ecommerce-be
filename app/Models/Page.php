@@ -38,7 +38,8 @@ class Page extends AbstractModel
     {
         return [
             'slug' => [
-                'source' => 'name'
+                'source' => 'name',
+                'onUpdate' => true,
             ]
         ];
     }

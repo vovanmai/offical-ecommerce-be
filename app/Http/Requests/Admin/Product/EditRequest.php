@@ -31,7 +31,7 @@ class EditRequest extends FormRequest
             'status' => 'required|in:1,2',
             'name' => [
                 'required',
-                'max:50',
+                'max:150',
                 Rule::unique('products', 'name')->ignore($id),
             ],
             'description' => "nullable",

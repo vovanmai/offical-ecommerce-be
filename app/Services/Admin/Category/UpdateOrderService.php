@@ -22,9 +22,6 @@ class UpdateOrderService
         if (!empty($updates)) {
             $this->updateCategoryOrder($updates);
         }
-
-        $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
-        return $categories;
     }
 
     private function prepareUpdateData(array $categories, int|null $parentId = null, &$updates = [])

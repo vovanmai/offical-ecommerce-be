@@ -23,7 +23,12 @@ class UpdateService
             'parent_id' => $data['parent_id'] ?? null,
         ]);
 
-        $categories = Category::where('type', $data['type'])->orderBy('order')->get()->toArray();
-        return $categories;
+        $withCount = $data['type'] === Category::TYPE_PRODUCT ? 'products' : 'posts';
+
+        return Category::where('type', $data['type'])
+            ->withCount($withCount)
+            ->orderBy('order')
+            ->get()
+            ->toArray();
     }
 }

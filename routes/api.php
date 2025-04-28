@@ -19,4 +19,4 @@ require __DIR__ . '/api/admin/index.php';
 
 
 // Routes of user
-// require __DIR__ . '/api/user/index.php';
+require __DIR__ . '/api/user/index.php';

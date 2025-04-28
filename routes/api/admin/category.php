@@ -9,4 +9,5 @@ Route::prefix('categories')->group(function () {
     Route::post('update-order', [CategoryController::class, 'updateOrder']);
     Route::get('{id}', [CategoryController::class, 'show']);
     Route::put('{id}', [CategoryController::class, 'update']);
+    Route::delete('{id}', [CategoryController::class, 'destroy']);
 });

@@ -30,7 +30,7 @@ class CreateRequest extends FormRequest
             'status' => 'required|in:1,2',
             'name' => [
                 'required',
-                'max:50',
+                'max:150',
                 Rule::unique('products', 'name')
             ],
             'description' => "nullable",

@@ -10,11 +10,9 @@ use App\Services\Admin\Category\ListService;
 use App\Services\Admin\Category\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\Admin\Category\UpdateService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use Exception;
-use Log;
+use Illuminate\Support\Facades\DB;
 
 class PostCategoryController extends BaseController
 {
@@ -69,13 +67,11 @@ class PostCategoryController extends BaseController
 
     public function destroy ($id)
     {
-        try {
-            $result = resolve(DeleteService::class)->handle($id);
-            return response()->success('Xóa danh mục thành công thành công', $result);
-        } catch (ModelNotFoundException $exception) {
-            return response()->notFound();
-        } catch (Exception $exception) {
-            return response()->error('Máy chủ bị lỗi', $exception);
-        }
+        $data['type'] = Category::TYPE_POST;
+        $items = DB::transaction(function () use ($id, $data) {
+            return resolve(DeleteService::class)->handle($id, $data);
+        });
+
+        return response()->success($items);
     }
 }
