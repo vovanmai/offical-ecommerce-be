@@ -188,5 +188,6 @@ return [
 
     'attributes' => [
         'name' => 'Tên',
+        'email' => 'Email',
     ],
 ];

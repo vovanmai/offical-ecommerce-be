@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\User\AuthController;
 use Illuminate\Support\Facades\Route;
+
+Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
 
 require __DIR__ . '/product.php';
 
