@@ -51,7 +51,12 @@ class EditRequest extends FormRequest
             'inventory_quantity' => [
                 'required',
                 'integer',
-            ]
+            ],
+            'unit' => [
+                'required',
+                'string',
+                'max:50'
+            ],
         ];
     }
 }

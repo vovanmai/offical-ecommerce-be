@@ -40,6 +40,7 @@ class UpdateService
             'price' => $data['price'] ?? null,
             'category_id' => $data['category_id'] ?? null,
             'inventory_quantity' => $data['inventory_quantity'] ?? null,
+            'unit' => $data['unit'] ?? null,
         ]);
 
         return $product;

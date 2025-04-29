@@ -4,8 +4,6 @@ namespace App\Services\Admin\Product;
 
 use App\Models\Product;
 use App\Services\Admin\Upload\UpdateService;
-use Illuminate\Contracts\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
 
 class StoreService
 {
@@ -24,6 +22,7 @@ class StoreService
             'category_id' => $data['category_id'],
             'inventory_quantity' => $data['inventory_quantity'],
             'status' => $data['status'] ?? Product::STATUS_ACTIVE,
+            'unit' => $data['unit'],
         ]);
 
         if(filled($data['preview_image_id']) ?? null) {
