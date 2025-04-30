@@ -17,5 +17,7 @@ require __DIR__ . '/page.php';
 
 require __DIR__ . '/category.php';
 
+require __DIR__ . '/banner.php';
+
 
 
