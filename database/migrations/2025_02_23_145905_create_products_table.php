@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name')->index();
             $table->tinyInteger('status')->default(Product::STATUS_ACTIVE);
             $table->unsignedBigInteger('price');
+            $table->string('unit', 50);
             $table->bigInteger('inventory_quantity');
             $table->string('slug')->unique();
             $table->text('description');
