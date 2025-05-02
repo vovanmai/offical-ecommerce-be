@@ -32,6 +32,6 @@ class Banner extends AbstractModel
      */
     public function image(): MorphOne
     {
-        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'image');
+        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'image')->orderBy('id', 'desc');
     }
 }

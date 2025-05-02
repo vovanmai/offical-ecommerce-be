@@ -49,6 +49,6 @@ class Post extends AbstractModel
      */
     public function previewImage(): MorphOne
     {
-        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image');
+        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image')->orderBy('id', 'desc');
     }
 }

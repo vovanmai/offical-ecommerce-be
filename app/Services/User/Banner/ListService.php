@@ -16,7 +16,8 @@ class ListService
     {
         $query = Banner::query()
             ->with('image')
-            ->where('status', Banner::STATUS_ACTIVE);
+            ->where('status', Banner::STATUS_ACTIVE)
+            ->orderBy('created_at', 'desc');
 
         return $query->select([
             '*'

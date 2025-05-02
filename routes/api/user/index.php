@@ -9,6 +9,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::middleware(['guard:user', 'auth:sanctum'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
+    require __DIR__ . '/cart.php';
 });
 
 require __DIR__ . '/product.php';

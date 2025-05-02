@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class Handler extends ExceptionHandler
 {
@@ -48,6 +49,7 @@ class Handler extends ExceptionHandler
         return match (true) {
             $e instanceof AuthenticationException => $this->unauthenticated($request, $e),
             $e instanceof ModelNotFoundException => $this->notFound(),
+            $e instanceof BadRequestException => $this->badRequest($e),
             $e instanceof ValidationException => $this->convertValidationExceptionToResponse($e, $request),
             default => $this->renderExceptionResponse($request, $e),
         };
@@ -81,6 +83,15 @@ class Handler extends ExceptionHandler
             'Không tìm thấy trang.',
             [],
             Response::HTTP_NOT_FOUND
+        );
+    }
+
+    protected function badRequest($ex)
+    {
+        return response()->error(
+            $ex->getMessage(),
+            [],
+            Response::HTTP_BAD_REQUEST
         );
     }
 }

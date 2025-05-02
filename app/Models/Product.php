@@ -59,7 +59,7 @@ class Product extends AbstractModel
      */
     public function previewImage(): MorphOne
     {
-        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image');
+        return $this->morphOne(Upload::class, 'uploadable')->where('key', 'preview_image')->orderBy('id', 'desc');
     }
 
     /**
@@ -67,6 +67,6 @@ class Product extends AbstractModel
      */
     public function detailFiles(): MorphMany
     {
-        return $this->morphMany(Upload::class, 'uploadable')->where('key', 'detail_file');
+        return $this->morphMany(Upload::class, 'uploadable')->where('key', 'detail_file')->orderBy('id', 'desc');
     }
 }
