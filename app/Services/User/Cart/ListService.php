@@ -17,9 +17,9 @@ class ListService
         $query = Cart::query()
             ->with([
                 'user',
-                'product',
+                'product.previewImage',
             ]);
 
-        return $query->orderBy('id', 'ASC')->get();
+        return $query->orderBy('id', 'ASC')->select(['carts.*', 'carts.id as key'])->get();
     }
 }
