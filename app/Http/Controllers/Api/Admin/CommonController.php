@@ -28,10 +28,12 @@ class CommonController extends BaseController
 
         $fileData = file_get_contents($file->getRealPath());
 
+        $folder = config('filesystems.imagekit.folder');
+
         $uploadFile = $imageKit->uploadFile([
             'file' => base64_encode($fileData),
             'fileName' => $file->getClientOriginalName(),
-            'folder' => "uploads"
+            'folder' => $folder,
         ]);
 
         $resultFile = $uploadFile->result ?? null;
@@ -39,7 +41,7 @@ class CommonController extends BaseController
         if($save) {
             $upload = Upload::create([
                 'filename' => $resultFile->name,
-                'path' => 'uploads',
+                'path' => $folder,
                 'file_size' => $resultFile->size,
                 'data' => [
                     'endpoint_url' => config('filesystems.imagekit.url_endpoint'),
@@ -50,7 +52,7 @@ class CommonController extends BaseController
         }
 
         return response()->success([
-            'url' => config('filesystems.imagekit.url_endpoint') . '/uploads/' . $resultFile->name,
+            'url' => config('filesystems.imagekit.url_endpoint') . '/' . $folder . '/' . $resultFile->name,
         ]);
     }
 }
