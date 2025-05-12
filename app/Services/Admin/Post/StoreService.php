@@ -18,6 +18,7 @@ class StoreService
         $post = Post::create([
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
+            'short_description' => $data['short_description'] ?? null,
             'category_id' => $data['category_id'],
             'status' => $data['status'] ?? Post::STATUS_ACTIVE,
         ]);

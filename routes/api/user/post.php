@@ -1,4 +1,8 @@
 <?php
+
+use App\Http\Controllers\Api\User\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('{category}/{slug}.html', 'PostController@show')->name('user.post.detail');
+Route::prefix('posts')->group(function () {
+    Route::get('', [PostController::class, 'index']);
+});

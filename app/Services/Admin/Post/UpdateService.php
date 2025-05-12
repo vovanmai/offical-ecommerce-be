@@ -28,6 +28,7 @@ class UpdateService
             'name' => $data['name'],
             'status' => $data['status'] ?? Post::STATUS_ACTIVE,
             'description' => $data['description'],
+            'short_description' => $data['short_description'] ?? null,
             'category_id' => $data['category_id'] ?? null,
         ]);
 

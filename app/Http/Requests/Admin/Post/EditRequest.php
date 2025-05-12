@@ -39,6 +39,10 @@ class EditRequest extends FormRequest
                 'max:100',
                 Rule::unique('posts', 'name')->ignore($id)
             ],
+            'short_description' => [
+                'required',
+                'max:255',
+            ],
             'description' => [
                 'required',
             ],

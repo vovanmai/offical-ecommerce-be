@@ -25,6 +25,7 @@ class Post extends AbstractModel
      */
     protected $fillable = [
         'name',
+        'short_description',
         'category_id',
         'status',
         'description',

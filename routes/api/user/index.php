@@ -21,5 +21,7 @@ require __DIR__ . '/category.php';
 
 require __DIR__ . '/banner.php';
 
+require __DIR__ . '/post.php';
+
 
 

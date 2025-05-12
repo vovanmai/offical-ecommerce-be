@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
+            $table->string('short_description');
             $table->string('slug')->unique();
             $table->tinyInteger('status')->default(Post::STATUS_ACTIVE);
             $table->text('description');
