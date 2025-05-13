@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Admin\Product;
+namespace App\Services\User\Page;
 
-use App\Models\Product;
+use App\Models\Page;
 
 class ShowService
 {
@@ -12,13 +12,10 @@ class ShowService
      *
      * @return
      */
-    public function handle (int $id)
+    public function handle (string $slug)
     {
-        $product = Product::with([
-            'previewImage',
-            'detailFiles'
-        ])->findOrFail($id);
+        $page = Page::where('slug', $slug)->firstOrFail();
 
-        return $product;
+        return $page;
     }
 }
