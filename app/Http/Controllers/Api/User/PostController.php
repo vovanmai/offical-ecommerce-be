@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Services\User\Post\ListService;
-use App\Services\Admin\Post\ShowService;
+use App\Services\User\Post\ShowService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -18,9 +18,9 @@ class PostController extends BaseController
         return response()->success($items);
     }
 
-    public function show (int $id)
+    public function show (string $slug)
     {
-        $product = resolve(ShowService::class)->handle($id);
+        $product = resolve(ShowService::class)->handle($slug);
 
         return response()->success($product);
     }

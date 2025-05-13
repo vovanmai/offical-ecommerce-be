@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\Admin\Post;
+namespace App\Services\User\Post;
 
-use App\Models\Product;
+use App\Models\Post;
 
 class ShowService
 {
@@ -12,13 +12,13 @@ class ShowService
      *
      * @return
      */
-    public function handle (int $id)
+    public function handle (string $slug)
     {
-        $product = Product::with([
+        $post = Post::with([
             'previewImage',
-            'detailFiles'
-        ])->findOrFail($id);
+            'category.parent',
+        ])->where('slug', $slug)->where('status', Post::STATUS_ACTIVE)->firstOrFail();
 
-        return $product;
+        return $post;
     }
 }

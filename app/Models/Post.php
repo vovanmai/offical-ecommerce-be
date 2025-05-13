@@ -31,6 +31,11 @@ class Post extends AbstractModel
         'description',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *
