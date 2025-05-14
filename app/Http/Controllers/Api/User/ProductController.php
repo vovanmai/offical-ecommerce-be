@@ -11,6 +11,7 @@ use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\User\Product\ShowService;
 use App\Services\Admin\Product\UpdateService;
+use App\Services\User\Product\ListByCategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Exception;
@@ -35,45 +36,13 @@ class ProductController extends BaseController
         return response()->success($product);
     }
 
-    public function store (CreateRequest $request)
+    public function getByCategory (Request $request, string $slug)
     {
-        $data = $request->validated();
+        $data['page'] = $request->get('page', 1);
+        $data['limit'] = $request->get('limit', 15);
 
-        $product = DB::transaction(function () use ($data) {
-            return resolve(StoreService::class)->handle($data);
-        });
+        $products = resolve(ListByCategoryService::class)->handle($slug, $data);
 
-        return response()->success($product);
-    }
-
-    public function updateOrder (Request $request)
-    {
-        $data = $request->only([
-            'categories',
-        ]);
-        $data['type'] = Category::TYPE_PRODUCT;
-
-        $categories = resolve(UpdateOrderService::class)->handle($data);
-
-        return response()->success($categories);
-    }
-
-    public function update (EditRequest $request, int $id)
-    {
-        $data = $request->validated();
-
-        DB::transaction(function () use ($id, $data) {
-            resolve(UpdateService::class)->handle($id, $data);
-        });
-
-        return response()->success();
-    }
-
-    public function destroy ($id)
-    {
-        DB::transaction(function () use ($id) {
-            resolve(DeleteService::class)->handle($id);
-        });
-        return response()->success([], 'Thành công');
+        return response()->success($products);
     }
 }
