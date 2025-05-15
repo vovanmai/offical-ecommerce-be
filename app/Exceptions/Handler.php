@@ -45,7 +45,7 @@ class Handler extends ExceptionHandler
      * @throws \Throwable
      */
     public function render($request, Throwable $e)
-    {dd($e);
+    {
         return match (true) {
             $e instanceof AuthenticationException => $this->unauthenticated($request, $e),
             $e instanceof ModelNotFoundException => $this->notFound(),
