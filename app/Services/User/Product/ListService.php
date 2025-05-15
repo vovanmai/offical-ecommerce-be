@@ -19,6 +19,15 @@ class ListService
                 'previewImage'
             ]);
 
-        return $query->orderBy('id', 'DESC')->limit($data['limit'])->get();
+        return $query->orderBy('id', 'DESC')
+            ->where('status', Product::STATUS_ACTIVE)
+            ->limit($data['limit'])
+            ->select([
+                'id',
+                'name',
+                'slug',
+                'price',
+            ])
+            ->get();
     }
 }
