@@ -46,6 +46,8 @@ class DatabaseDump extends Command
         $output = null;
         exec($command, $output, $result);
 
+        $this->info("Đã run: {$command}");
+
         if ($result === 0) {
             $this->info("✅ Database dumped successfully to: {$path}");
         } else {
