@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use ImageKit\ImageKit;
 
 class DatabaseDump extends Command
 {
@@ -26,6 +27,22 @@ class DatabaseDump extends Command
      */
     public function handle()
     {
+
+        try {
+            $this->info('Starting database dump...');
+            $this->dumpDatabase();
+        } catch (\Exception $e) {
+            $this->error('Error: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Dump the database using the mysqldump command.
+     *
+     * @return void
+     */
+    protected function dumpDatabase()
+    {
         $database = config('database.connections.mysql.database');
         $username = config('database.connections.mysql.username');
         $password = config('database.connections.mysql.password');
@@ -33,7 +50,9 @@ class DatabaseDump extends Command
         $port     = config('database.connections.mysql.port', 3306);
 
         $timestamp = now()->format('Ymd_His');
-        $path = storage_path("app/backups/{$database}_{$timestamp}.sql");
+        $filename = "{$database}_{$timestamp}.sql";
+
+        $path = storage_path("app/backups/{$filename}");
 
         File::ensureDirectoryExists(dirname($path));
 
@@ -53,5 +72,23 @@ class DatabaseDump extends Command
         } else {
             $this->error("❌ Failed to dump database.");
         }
+
+        $imageKit = new ImageKit(
+            config('filesystems.imagekit.public_key'),
+            config('filesystems.imagekit.private_key'),
+            config('filesystems.imagekit.url_endpoint'),
+        );
+
+        $fileData = file_get_contents($path);
+
+        $folder = config('filesystems.imagekit.folder');
+
+        $uploadFile = $imageKit->uploadFile([
+            'file' => base64_encode($fileData),
+            'fileName' => $filename,
+            'folder' => $folder . '/backup_db',
+        ]);
+
+        dd($uploadFile);
     }
 }
