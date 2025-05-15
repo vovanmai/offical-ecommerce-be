@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
 use ImageKit\ImageKit;
 
 class DatabaseDump extends Command
@@ -30,9 +31,15 @@ class DatabaseDump extends Command
 
         try {
             $this->info('Starting database dump...');
+            $startTime = now()->format('Y-m-d H:i:s');
+            Log::info("[START] Database dump started at: {$startTime}");
             $this->dumpDatabase();
+            $endTime = now()->format('Y-m-d H:i:s');
+            Log::info("[END] Database dump completed at: {$endTime}");
+            $this->info('Database dump completed successfully.');
         } catch (\Exception $e) {
-            $this->error('Error: ' . $e->getMessage());
+            $this->error('Database dump error: ' . $e->getMessage());
+            Log::error('Database dump error: ' . $e->getMessage());
         }
     }
 
@@ -83,12 +90,10 @@ class DatabaseDump extends Command
 
         $folder = config('filesystems.imagekit.folder');
 
-        $uploadFile = $imageKit->uploadFile([
+        $imageKit->uploadFile([
             'file' => base64_encode($fileData),
             'fileName' => $filename,
             'folder' => $folder . '/backup_db',
         ]);
-
-        dd($uploadFile);
     }
 }
