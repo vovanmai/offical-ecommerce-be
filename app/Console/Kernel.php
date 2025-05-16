@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('db:dump')->dailyAt('03:00'); // Schedule the database dump command to run daily at midnight
+        $schedule->command('db:dump')->cron('0 2 */3 * *');
     }
 
     /**
