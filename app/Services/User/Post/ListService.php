@@ -18,10 +18,18 @@ class ListService
 
         $query = Post::query()->with([
             'previewImage'
-        ])->where('status', Post::STATUS_ACTIVE);
+        ])->where('status', Post::STATUS_ACTIVE)
+            ->orderBy('id', 'DESC')
+            ->select([
+                'id',
+                'name',
+                'short_description',
+                'slug',
+            ]);
 
         if ($limit) {
-            return $query->orderBy('id', 'DESC')->limit($limit)->get();
+            return $query->limit($limit)
+                ->get();
         }
     }
 }
