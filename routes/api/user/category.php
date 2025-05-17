@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('categories')->group(function () {
     Route::get('', [CategoryController::class, 'index']);
+    Route::get('{slug}', [CategoryController::class, 'show']);
     Route::get('{slug}/posts', [PostController::class, 'getByCategory']);
     Route::get('{slug}/products', [ProductController::class, 'getByCategory']);
 });

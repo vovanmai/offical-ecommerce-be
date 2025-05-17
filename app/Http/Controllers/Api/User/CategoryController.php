@@ -9,7 +9,7 @@ use App\Services\Admin\Product\DeleteService;
 use App\Services\User\Category\ListService;
 use App\Services\Admin\Product\StoreService;
 use App\Services\Admin\Category\UpdateOrderService;
-use App\Services\Admin\Product\ShowService;
+use App\Services\User\Category\ShowService;
 use App\Services\Admin\Product\UpdateService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
@@ -27,11 +27,12 @@ class CategoryController extends BaseController
         return response()->success($items);
     }
 
-    public function show (int $id)
+    public function show (Request $request, string $slug)
     {
-        $product = resolve(ShowService::class)->handle($id);
+        $data['type'] = $request->get('type', Category::TYPE_PRODUCT);
+        $category = resolve(ShowService::class)->handle($slug, $data);
 
-        return response()->success($product);
+        return response()->success($category);
     }
 
     public function store (CreateRequest $request)

@@ -15,19 +15,15 @@ class ListByCategoryService
      */
     public function handle (string $slug, array $data, array $filters = [])
     {
-        $category = Category::with('parent')->where('slug', $slug)
+
+        $category = Category::query()
+            ->where('slug', $slug)
+            ->where('type', $data['type'] ?? Category::TYPE_POST)
             ->where('status', Category::STATUS_ACTIVE)
-            ->select([
-                'id',
-                'name',
-                'slug',
-                'parent_id',
-            ])
-            ->firstOrFail();
+            ->firstOrFail(['id']);
 
         $posts = Post::query()->with([
             'previewImage',
-            // 'category.parent',
         ])->where('category_id', $category->id)
         ->where('status', Post::STATUS_ACTIVE)
         ->orderBy('id', 'DESC')
@@ -40,9 +36,6 @@ class ListByCategoryService
         ])
         ->paginate($data['limit']);
 
-        return [
-            'post_paginate' => $posts,
-            'category' => $category,
-        ];
+        return $posts;
     }
 }
