@@ -13,19 +13,27 @@ class ListByCategoryService
      *
      * @return
      */
-    public function handle (string $slug)
+    public function handle (string $slug, array $data, array $filters = [])
     {
-        $category = Category::where('slug', $slug)
+        $category = Category::query()
+            ->where('slug', $slug)
+            ->where('type', $data['type'] ?? Category::TYPE_PRODUCT)
             ->where('status', Category::STATUS_ACTIVE)
-            ->firstOrFail();
+            ->firstOrFail(['id']);
 
-        $products = Product::with([
+        $products = Product::query()->with([
             'previewImage',
-            'category.parent',
         ])->where('category_id', $category->id)
         ->where('status', Product::STATUS_ACTIVE)
         ->orderBy('id', 'DESC')
-        ->firstOrFail();
+        ->select([
+            'id',
+            'name',
+            'slug',
+            'category_id',
+            'price',
+        ])
+        ->paginate($data['limit']);
 
         return $products;
     }
