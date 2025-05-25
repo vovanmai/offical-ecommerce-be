@@ -35,6 +35,8 @@ class EditRequest extends FormRequest
                 new CheckExistedCategoryName($this->get('parent_id'), Category::TYPE_PRODUCT, $id),
             ],
             'description' => "nullable",
+            'is_display_main_menu' => 'nullable|boolean',
+            'is_display_footer' => 'nullable|boolean',
         ];
     }
 }

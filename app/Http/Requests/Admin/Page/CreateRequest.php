@@ -34,6 +34,8 @@ class CreateRequest extends FormRequest
             'description' => [
                 'required',
             ],
+            'is_display_main_menu' => 'nullable|boolean',
+            'is_display_footer' => 'nullable|boolean',
         ];
     }
 }

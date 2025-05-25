@@ -35,6 +35,8 @@ class Category extends AbstractModel
         'status',
         'type',
         'order',
+        'is_display_main_menu',
+        'is_display_footer',
     ];
 
     /**

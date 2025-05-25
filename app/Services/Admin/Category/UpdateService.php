@@ -21,6 +21,8 @@ class UpdateService
             'status' => $data['status'] ?? Category::STATUS_ACTIVE,
             'description' => $data['description'],
             'parent_id' => $data['parent_id'] ?? null,
+            'is_display_main_menu' => $data['is_display_main_menu'] ?? true,
+            'is_display_footer' => $data['is_display_footer'] ?? true,
         ]);
 
         $withCount = $data['type'] === Category::TYPE_PRODUCT ? 'products' : 'posts';

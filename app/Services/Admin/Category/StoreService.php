@@ -23,6 +23,8 @@ class StoreService
             'order' => $this->getNextOrder($data['parent_id'] ?? null, $data) + 1,
             'parent_id' => $data['parent_id'] ?? null,
             'status' => $data['status'] ?? Category::STATUS_ACTIVE,
+            'is_display_main_menu' => $data['is_display_main_menu'] ?? true,
+            'is_display_footer' => $data['is_display_footer'] ?? true,
         ]);
 
         $withCount = $data['type'] === Category::TYPE_PRODUCT ? 'products' : 'posts';

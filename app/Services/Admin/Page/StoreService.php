@@ -19,6 +19,8 @@ class StoreService
             'name' => $data['name'],
             'description' => $data['description'] ?? null,
             'status' => $data['status'] ?? Page::STATUS_ACTIVE,
+            'is_display_main_menu' => $data['is_display_main_menu'] ?? true,
+            'is_display_footer' => $data['is_display_footer'] ?? true,
         ]);
 
         return $page;
