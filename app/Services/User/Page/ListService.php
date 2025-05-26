@@ -21,6 +21,8 @@ class ListService
             'id',
             'name',
             'slug',
+            'is_display_main_menu',
+            'is_display_footer',
         ])->get();
     }
 }

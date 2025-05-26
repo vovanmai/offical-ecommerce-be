@@ -46,6 +46,8 @@ class EditRequest extends FormRequest
                 Rule::in(Category::STATUS_ACTIVE, Category::STATUS_INACTIVE),
             ],
             'description' => "nullable",
+            'is_display_main_menu' => 'nullable|boolean',
+            'is_display_footer' => 'nullable|boolean',
         ];
     }
 }

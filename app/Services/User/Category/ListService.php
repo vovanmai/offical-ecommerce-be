@@ -23,6 +23,8 @@ class ListService
             'name',
             'slug',
             'parent_id',
+            'is_display_main_menu',
+            'is_display_footer',
         ])->get();
     }
 }
