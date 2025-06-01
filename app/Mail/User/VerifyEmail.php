@@ -15,8 +15,6 @@ class VerifyEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $queue = 'high';
-
     public $user;
     public $url;
 
@@ -25,6 +23,7 @@ class VerifyEmail extends Mailable implements ShouldQueue
      */
     public function __construct(User $user)
     {
+        $this->onQueue('high');
         $this->user = $user;
         $this->url = config('app.url') . '/verify-email?token=' . $user->verification_token;
         Log::info('VerifyEmail Mailable initialized for user: ' . $user->email);
