@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Api\User;
 
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\RegisterRequest;
-use App\Models\Admin;
+use App\Mail\User\VerifyEmail;
 use App\Models\User;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
 
 class AuthController extends BaseController
 {
@@ -36,8 +39,21 @@ class AuthController extends BaseController
     {
         $data = $request->validated();
 
-        $data['status'] = User::STATUS_REGISTER;
-        $user = User::create($data);
+        $user = User::where('email', $data['email'])
+            ->first();
+
+        if ($user) {
+            $user->verification_token = Str::random(64);
+            $user->save();
+            Mail::to($user->email)->send(new VerifyEmail($user));
+        } else {
+            $data['status'] = User::STATUS_UNVERIFIED;
+            $data['verification_token'] = Str::random(64);
+            $user = User::create($data);
+        }
+
+
+        Mail::to($user->email)->send(new VerifyEmail($user));
 
         return response()->success();
     }
@@ -51,5 +67,21 @@ class AuthController extends BaseController
     public function me ()
     {
         return response()->success(request()->user());
+    }
+
+    public function verify(string $token)
+    {
+        $user = User::where('verification_token', $token)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Mã xác thực không hợp lệ hoặc đã xác thực.'], 400);
+        }
+
+        $user->email_verified_at = now();
+        $user->status = User::STATUS_ACTIVE;
+        $user->verification_token = null;
+        $user->save();
+
+        return response()->json(['message' => 'Xác thực email thành công.']);
     }
 }

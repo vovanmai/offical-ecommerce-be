@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('health', function () {
@@ -9,6 +10,8 @@ Route::get('health', function () {
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('register', [AuthController::class, 'register']);
+Route::get('verify-email/{token}', [AuthController::class, 'verify']);
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 
 Route::middleware(['guard:user', 'auth:sanctum'])->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);

@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    const STATUS_REGISTER = 1;
+    const STATUS_UNVERIFIED = 1;
     const STATUS_ACTIVE = 2;
     const STATUS_INACTIVE = 3;
 
@@ -27,6 +27,9 @@ class User extends Authenticatable
         'phone',
         'email',
         'password',
+        'verification_token',
+        'email_verified_at',
+        'remember_token',
     ];
 
     /**
