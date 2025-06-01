@@ -9,10 +9,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class VerifyEmail extends Mailable
+class VerifyEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
+
+    public $queue = 'high';
 
     public $user;
     public $url;
@@ -24,6 +27,7 @@ class VerifyEmail extends Mailable
     {
         $this->user = $user;
         $this->url = config('app.url') . '/verify-email?token=' . $user->verification_token;
+        Log::info('VerifyEmail Mailable initialized for user: ' . $user->email);
     }
 
     /**
@@ -31,6 +35,7 @@ class VerifyEmail extends Mailable
      */
     public function envelope(): Envelope
     {
+        Log::info('Sending verify email to user: ' . $this->user->email);
         return new Envelope(
             subject: 'Xác thực tài khoản của bạn',
         );
