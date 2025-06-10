@@ -14,20 +14,29 @@ class ListService
      */
     public function handle (array $data)
     {
+        $limit = $data['limit'] ?? null;
+        $keyword = $data['keyword'] ?? null;
         $query = Product::query()
             ->with([
                 'previewImage'
-            ]);
-
-        return $query->orderBy('id', 'DESC')
+            ])
+            ->orderBy('id', 'DESC')
             ->where('status', Product::STATUS_ACTIVE)
-            ->limit($data['limit'])
             ->select([
                 'id',
                 'name',
                 'slug',
                 'price',
-            ])
-            ->get();
+            ]);
+
+        if($keyword) {
+            $query->where('name', 'like', "%{$keyword}%");
+        }
+
+        if($limit) {
+            return $query->limit($limit)->get();
+        }
+
+        return $query->paginate($data['per_page']);
     }
 }

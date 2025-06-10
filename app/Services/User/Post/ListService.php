@@ -15,6 +15,7 @@ class ListService
     public function handle (array $data)
     {
         $limit = $data['limit'] ?? null;
+        $keyword = $data['keyword'] ?? null;
 
         $query = Post::query()->with([
             'previewImage'
@@ -30,6 +31,10 @@ class ListService
         if ($limit) {
             return $query->limit($limit)
                 ->get();
+        }
+
+        if($keyword) {
+
         }
     }
 }

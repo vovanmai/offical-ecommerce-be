@@ -13,6 +13,7 @@ class PostController extends BaseController
     public function index (Request $request)
     {
         $data['limit'] = $request->get('limit');
+        $data['keyword'] = $request->get('keyword');
 
         $items = resolve(ListService::class)->handle($data);
 

@@ -2,27 +2,19 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Requests\Admin\Product\CreateRequest;
-use App\Http\Requests\Admin\Product\EditRequest;
-use App\Models\Category;
-use App\Services\Admin\Product\DeleteService;
 use App\Services\User\Product\ListService;
-use App\Services\Admin\Product\StoreService;
-use App\Services\Admin\Category\UpdateOrderService;
 use App\Services\User\Product\ShowService;
-use App\Services\Admin\Product\UpdateService;
 use App\Services\User\Product\ListByCategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use Exception;
-use Log;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
 {
     public function index (Request $request)
     {
-        $data['limit'] = $request->get('limit', 12);
+        $data['limit'] = $request->get('limit');
+        $data['keyword'] = $request->get('keyword');
+        $data['per_page'] = $request->get('per_page', 12);
 
         $items = resolve(ListService::class)->handle($data);
 
