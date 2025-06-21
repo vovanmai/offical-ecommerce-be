@@ -39,6 +39,11 @@ class CreateRequest extends FormRequest
                 'integer',
                 'min:1000'
             ],
+            'sale_price' => [
+                'nullable',
+                'integer',
+                'min:1000'
+            ],
             'preview_image_id' => [
                 'required',
                 'integer',

@@ -27,6 +27,7 @@ class ListService
                 'name',
                 'slug',
                 'price',
+                'sale_price',
             ]);
 
         if($keyword) {

@@ -20,6 +20,7 @@ class StoreService
         $product = Product::create([
             'name' => $data['name'],
             'price' => $data['price'],
+            'sale_price' => $data['sale_price'] ?? null,
             'description' => $data['description'] ?? null,
             'category_id' => $data['category_id'],
             'inventory_quantity' => $data['inventory_quantity'],

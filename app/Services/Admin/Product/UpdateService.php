@@ -38,6 +38,7 @@ class UpdateService
             'status' => $data['status'] ?? Category::STATUS_ACTIVE,
             'description' => $data['description'],
             'price' => $data['price'] ?? null,
+            'sale_price' => $data['sale_price'] ?? null,
             'category_id' => $data['category_id'] ?? null,
             'inventory_quantity' => $data['inventory_quantity'] ?? null,
             'unit' => $data['unit'] ?? null,

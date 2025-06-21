@@ -30,6 +30,7 @@ class Product extends AbstractModel
         'status',
         'description',
         'price',
+        'sale_price',
         'unit',
         'inventory_quantity',
     ];
