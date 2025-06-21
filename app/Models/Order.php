@@ -12,6 +12,8 @@ class Order extends AbstractModel
      */
     protected $table = 'orders';
 
+    const PAYMENT_METHOD_COD = 1; // Cash on delivery
+
     /**
      * The attributes that are mass assignable.
      *

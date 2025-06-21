@@ -29,7 +29,7 @@ class StoreService
             'user_id' => $userId,
             'status' => 1,
             'shipping_fee' => 30000,
-            'payment_method' => 1,
+            'payment_method' => $data['payment_method'] ?? Order::PAYMENT_METHOD_COD,
             'total' => $carts
                 ->sum(function ($cart) {
                     return ($cart->product->sale_price ?? $cart->product->price) * $cart->quantity;

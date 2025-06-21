@@ -26,6 +26,7 @@ class CreateRequest extends FormRequest
             'email' => 'required|email|max:255',
             'phone' => 'required',
             'shipping_address' => 'required|string|max:255',
+            'payment_method' => 'required|in:1', // Assuming 1 is for cash on delivery and 2 is for online payment
         ];
     }
 }
