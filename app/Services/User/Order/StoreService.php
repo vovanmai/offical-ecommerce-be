@@ -32,16 +32,15 @@ class StoreService
             'payment_method' => 1,
             'total' => $carts
                 ->sum(function ($cart) {
-                    return $cart->product->price * $cart->quantity;
+                    return ($cart->product->sale_price ?? $cart->product->price) * $cart->quantity;
                 }) + 30000,
-
         ]);
 
         $order->orderDetails()->createMany($carts->map(function ($cart) {
             return [
                 'product_id' => $cart->product_id,
                 'quantity' => $cart->quantity,
-                'price' => $cart->product->price,
+                'price' => $cart->product->sale_price ?? $cart->product->price,
             ];
         })->toArray());
 
