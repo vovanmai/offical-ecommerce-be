@@ -24,7 +24,7 @@ class AuthController extends BaseController
         $user = User::where('email', $credentials['email'])->first();
 
         if ($user && $user->status == User::STATUS_UNVERIFIED) {
-            return response()->error('Tài khoản của bạn chưa được kích hoạt.', [], 403);
+            return response()->error('Tài khoản của bạn chưa được kích hoạt. Vui lòng vào mail để xác nhận.', [], 403);
         }
 
         if ($user && $user->status == User::STATUS_INACTIVE) {
