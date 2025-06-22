@@ -23,6 +23,14 @@ class AuthController extends BaseController
 
         $user = User::where('email', $credentials['email'])->first();
 
+        if ($user && $user->status == User::STATUS_UNVERIFIED) {
+            return response()->error('Tài khoản của bạn chưa được kích hoạt.', [], 403);
+        }
+
+        if ($user && $user->status == User::STATUS_INACTIVE) {
+            return response()->error('Tài khoản của bạn đã bị vô hiệu hoá.', [], 403);
+        }
+
         if ($user && Hash::check($credentials['password'], $user->password)) {
             $token = $user->createToken('Admin Access Token', ['user'])->plainTextToken;
 
