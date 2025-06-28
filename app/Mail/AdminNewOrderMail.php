@@ -33,8 +33,9 @@ class AdminNewOrderMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         Log::info('AdminNewOrderMail' . $this->order->id);
+        $appName = config('app.name');
         return new Envelope(
-            subject: 'Ban có đơn hàng mới từ ' . $this->order->name,
+            subject: "[{$appName}] Đơn hàng mới từ: " . $this->order->name,
         );
     }
 
