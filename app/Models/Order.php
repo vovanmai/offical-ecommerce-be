@@ -14,12 +14,19 @@ class Order extends AbstractModel
 
     const PAYMENT_METHOD_COD = 1; // Cash on delivery
 
+    const STATUS_PENDING = 1;
+    const STATUS_PROCESSING = 2;
+    const STATUS_SHIPPING = 3;
+    const STATUS_DELIVERED = 4;
+    const STATUS_CANCELLED = 5;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'code',
         'name',
         'email',
         'phone',

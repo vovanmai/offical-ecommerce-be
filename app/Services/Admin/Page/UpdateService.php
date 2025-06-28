@@ -20,6 +20,7 @@ class UpdateService
             'name' => $data['name'],
             'status' => $data['status'] ?? Page::STATUS_ACTIVE,
             'description' => $data['description'],
+            'short_description' => $data['short_description'] ?? null,
             'is_display_main_menu' => $data['is_display_main_menu'] ?? true,
             'is_display_footer' => $data['is_display_footer'] ?? true,
         ]);

@@ -6,7 +6,7 @@ use App\Http\Requests\User\Order\CreateRequest;
 use App\Http\Requests\User\Cart\EditRequest;
 use App\Services\User\Cart\ClearService;
 use App\Services\User\Cart\DeleteService;
-use App\Services\User\Cart\ListService;
+use App\Services\User\Order\ListService;
 use App\Services\User\Order\StoreService;
 use App\Services\User\Cart\UpdateService;
 use Illuminate\Http\Request;
@@ -17,8 +17,11 @@ class OrderController extends BaseController
 {
     public function index (Request $request)
     {
+        $data = $request->only([
+            'status',
+        ]);
 
-        $items = resolve(ListService::class)->handle();
+        $items = resolve(ListService::class)->handle($data);
 
         return response()->success($items);
     }

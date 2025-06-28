@@ -33,6 +33,10 @@ class EditRequest extends FormRequest
                 'max:50',
                 Rule::unique('pages', 'name')->ignore($id),
             ],
+            'short_description' => [
+                'required',
+                'max:255',
+            ],
             'description' => [
                 'required',
             ],

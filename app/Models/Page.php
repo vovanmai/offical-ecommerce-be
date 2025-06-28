@@ -27,6 +27,7 @@ class Page extends AbstractModel
         'slug',
         'status',
         'description',
+        'short_description',
         'is_display_main_menu',
         'is_display_footer',
     ];

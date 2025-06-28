@@ -2,9 +2,11 @@
 
 namespace App\Services\User\Order;
 
+use App\Mail\AdminNewOrderMail;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 
 class StoreService
@@ -33,7 +35,7 @@ class StoreService
             'total' => $carts
                 ->sum(function ($cart) {
                     return ($cart->product->sale_price ?? $cart->product->price) * $cart->quantity;
-                }) + 30000,
+                }),
         ]);
 
         $order->orderDetails()->createMany($carts->map(function ($cart) {
@@ -57,6 +59,12 @@ class StoreService
         });
 
         Cart::query()->where('user_id', $userId)->delete();
+
+        $to = explode(',', config('define.admin_new_order_mails', []));
+
+        if ($to) {
+            Mail::to($to)->send(new AdminNewOrderMail($order));
+        }
 
         return $order;
     }

@@ -31,6 +31,10 @@ class CreateRequest extends FormRequest
                 'max:50',
                 Rule::unique('products', 'name')
             ],
+            'short_description' => [
+                'required',
+                'max:255',
+            ],
             'description' => [
                 'required',
             ],

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services\User\Cart;
+namespace App\Services\User\Order;
 
-use App\Models\Cart;
+use App\Models\Order;
 
 class ListService
 {
@@ -12,14 +12,17 @@ class ListService
      *
      * @return
      */
-    public function handle ()
+    public function handle (array $data)
     {
-        $query = Cart::query()
-            ->with([
-                'user',
-                'product.previewImage',
-            ]);
+        $query = Order::query();
+        $status = $data['status'] ?? null;
 
-        return $query->where('user_id', auth()->id())->orderBy('id', 'ASC')->select(['carts.*', 'carts.id as key'])->get();
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        return $query->where('user_id', auth()->id())
+            ->orderBy('id', 'DESC')
+            ->get();
     }
 }
